@@ -1,5 +1,4 @@
 from playwright.sync_api import sync_playwright
-#from playwright.sync_api import Page, expect
 
 class Browsers():
     CHROME = 0
@@ -17,5 +16,6 @@ def launch(p, browser, url):
 
     return browserInst, page
 
-def clickElementByText(text, page):
-    page.get_by_text(text).click(force=True)
+def clickElement(locator, page):
+    locator = page.locator(locator).nth(0)
+    locator.click(force=True)
