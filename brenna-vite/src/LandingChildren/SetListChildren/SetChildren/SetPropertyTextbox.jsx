@@ -3,6 +3,10 @@ import 'bootstrap/dist/css/bootstrap.css'
 import axios from 'axios'
 import SetProperty from './SetProperty.jsx'
 
+/*
+    Editable set property component
+ */
+
 function SetPropertyTextbox(props) {
 
     const inputRef = useRef();

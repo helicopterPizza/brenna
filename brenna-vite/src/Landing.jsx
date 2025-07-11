@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import './Sets.css'
-import SetField from './SetField.jsx'
-import SetList from './SetList.jsx'
+import SetList from './LandingChildren/SetList.jsx'
 import 'bootstrap/dist/css/bootstrap.css'
 
-function Scripts() {
+/*
+    Landing page
+ */
+
+function Landing() {
     const [sets, setSets] = useState([])
     const [currentSet, setCurrentSet] = useState([])
     const [page, setPage] = useState([])
@@ -42,4 +45,4 @@ function Scripts() {
     return(page)
 }
 
-export default Scripts
+export default Landing

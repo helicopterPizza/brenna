@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import SetField from './SetField.jsx'
-import Set from './Set.jsx'
+import SetField from './SetListChildren/SetField.jsx'
+import Set from './SetListChildren/Set.jsx'
+
+/*
+    Shows the list of sets on the landing page.
+    Navigates to:
+        -> Set.jsx (when a set is clicked with "view")
+ */
 
 function SetList(props) {
     console.log(props)
