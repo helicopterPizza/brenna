@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import SetProperty from './SetChildren/SetProperty.jsx'
-import CommandField from './SetChildren/CommandField.jsx'
+import SetProperty from './SetProperty.jsx'
+import CommandField from './CommandField.jsx'
 import 'bootstrap/dist/css/bootstrap.css'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import SetPropertyTextbox from './SetChildren/SetPropertyTextbox.jsx'
-
-/*
-    Main display component for a specific set
- */
+import SetPropertyTextbox from './SetPropertyTextbox.jsx'
 
 document.title="Set.jsx"
 
