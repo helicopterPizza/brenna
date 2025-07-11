@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
 import SetPropertyTextbox from './SetPropertyTextbox.jsx'
 
-/*
-    Non-editable set property component
- */
 
 function SetProperty(props) {
     if (props.edit == "True") {
