@@ -8,18 +8,17 @@ import Set from './SetListChildren/Set.jsx'
         -> Set.jsx (when a set is clicked with "view")
  */
 
-function SetList(props) {
-    console.log(props)
-        return (
-            <div>
-                {props.sets.map((set, index) => (
-                    <div key={set.uid} style={{border: '1px solid black'}}>
-                        <SetField name={set.name} uid={set.uid}/>
-                        <button onClick={() => {props.setPage(<Set set={set}></Set>); document.title="SetField.jsx"}}>View</button>
-                    </div>
-                ))}
-            </div>
-        )
+const SetList = ({sets, setPage}) => {
+    return (
+        <div>
+            {sets.map((set, index) => (
+                <div key={set.uid} style={{border: '1px solid black'}}>
+                    <SetField name={set.name} uid={set.uid}/>
+                    <button onClick={() => {setPage(<Set set={set}></Set>); document.title="SetField.jsx"}}>View</button>
+                </div>
+            ))}
+        </div>
+    )
 }
 
 export default SetList;
