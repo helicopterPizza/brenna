@@ -23,7 +23,7 @@ from django.http import JsonResponse
 @csrf_exempt
 def FetchCommand(request):
     json_body = json.loads(request.body.decode('utf-8'))
-    command = Command.objects.filter(setUid=json_body['setUid'])
+    command = Command.objects.filter(setUid=json_body['set_uid'])
     return JsonResponse(serialize_commands(command), safe=False)
 
 @csrf_exempt
@@ -34,7 +34,7 @@ def FetchAllCommands(request):
 @csrf_exempt
 def CreateCommand(request):
     json_body = json.loads(request.body.decode('utf-8'))
-    command = Command(uid=json_body['uid'], stepID=json_body['stepID'], action=json_body['action'], locator=json_body['locator'], locatorVal=json_body['locatorVal'])
+    command = Command(uid=json_body['uid'], stepID=json_body['step_id'], action=json_body['action'], locator=json_body['locator'], locatorVal=json_body['locator_val'])
     command.save()
 
     return JsonResponse(str(json_body), safe=False)

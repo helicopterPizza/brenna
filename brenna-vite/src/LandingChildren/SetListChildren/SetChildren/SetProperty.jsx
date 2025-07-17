@@ -6,7 +6,7 @@ import SetPropertyTextbox from './SetPropertyTextbox.jsx'
     Non-editable set property component
  */
 
-const SetProperty = ({set, setProp, name, content, edit, setComponent}) => {
+const SetProperty = ({set, setProp, name, content, edit, setComponent, updateSets}) => {
     if (edit == "True") {
         return (
             <div className="row">
@@ -19,7 +19,7 @@ const SetProperty = ({set, setProp, name, content, edit, setComponent}) => {
                     </div>
                 </div>
                 <div className="col-xs-2 col-md-2">
-                    <button onClick={() => {setComponent(<SetPropertyTextbox set={set} setProp={setProp} name={name} content={content} edit={edit} setComponent={setComponent}></SetPropertyTextbox>)}} style={{border: '1px solid black', float: "left"}}>Edit</button>
+                    <button onClick={() => {setComponent(<SetPropertyTextbox set={set} setProp={setProp} name={name} content={content} edit={edit} setComponent={setComponent} updateSets={updateSets}></SetPropertyTextbox>)}} style={{border: '1px solid black', float: "left"}}>Edit</button>
                 </div>
             </div>
         )

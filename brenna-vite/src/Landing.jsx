@@ -13,22 +13,31 @@ function Landing() {
     const [currentSet, setCurrentSet] = useState([])
     const [page, setPage] = useState([])
 
+    function UpdateSets() {
+        const setsListUrl = 'http://localhost:8000/brenna/sets/fetch_all'
+        const res = axios.post(setsListUrl)
+            .then(response => setSets(response.data))
+    }
+
     useEffect(() => {
         const setsListUrl = 'http://localhost:8000/brenna/sets/fetch_all'
         const res = axios.post(setsListUrl)
-            .then(response => {setPage(<SetList sets={response.data} setPage={setPage}/>); setSets(response.data)})
+            .then(response => {setPage(<SetList sets={response.data} setPage={setPage} updateSets={UpdateSets}/>); setSets(response.data)})
     }, [])
 
 
-    function CreateCommand(){
-        const uid = '10'
-        const stepID = '1'
-        const action = 'click'
-        const locator = 'title'
-        const locatorVal = 'Apple'
-        const body = {uid, stepID, action, locator, locatorVal}
-        const response = axios.post('http://localhost:8000/brenna/command', body)
-        console.log(response)
+    function CreateCommands(){
+        const body = {uid: 20, name: "clicktest TWO", description: "testing clicks again", url: "wikipedia.com"}
+        const response = axios.post('http://localhost:8000/brenna/sets/create', body)
+
+        const body2 = {uid: 1, set_uid: 10, step_id: 1, action: 'click', locator: 'title', locator_val: 'apple'}
+        const response2 = axios.post('http://localhost:8000/brenna/commands/create', body)
+
+        const body3 = {uid: 2, set_uid: 10, step_id: 2, action: 'click', locator: 'title', locator_val: 'pear'}
+        const response3 = axios.post('http://localhost:8000/brenna/commands/create', body)
+
+        const body4 = {uid: 3, set_uid: 10, step_id: 3, action: 'click', locator: 'title', locator_val: 'orange'}
+        const response4 = axios.post('http://localhost:8000/brenna/command', body)
     }
 
     function FetchSet() {

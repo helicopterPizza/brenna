@@ -8,13 +8,13 @@ import Set from './SetListChildren/Set.jsx'
         -> Set.jsx (when a set is clicked with "view")
  */
 
-const SetList = ({sets, setPage}) => {
+const SetList = ({sets, setPage, updateSets}) => {
     return (
         <div>
             {sets.map((set, index) => (
-                <div key={set.uid} style={{border: '1px solid black'}}>
+                <div key={set.name} style={{border: '1px solid black'}}>
                     <SetField name={set.name} uid={set.uid}/>
-                    <button onClick={() => {setPage(<Set set={set}></Set>); document.title="SetField.jsx"}}>View</button>
+                    <button onClick={() => {setPage(<Set key={set} sets={sets} set={set} updateSets={updateSets}></Set>); document.title="SetField.jsx"}}>View</button>
                 </div>
             ))}
         </div>

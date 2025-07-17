@@ -7,24 +7,23 @@ import SetProperty from './SetProperty.jsx'
     Editable set property component
  */
 
-const SetPropertyTextbox = ({set, setProp, name, content, edit, setComponent}) => {
-
+const SetPropertyTextbox = ({set, setProp, name, content, edit, setComponent, updateSets}) => {
     const inputRef = useRef();
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
         const uid = set.uid
-        const name = set.name
+        const set_name = set.name
         const description = set.description
         const url = set.url
-        const body = {uid, name, description, url}
+        const body = {uid: uid, name: set_name, description: description, url: url}
         body[setProp] = inputRef.current.value
-
-        set[setProp] = inputRef.current.value
+        //set[setProp] = inputRef.current.value
 
         const response = axios.post('http://localhost:8000/brenna/sets/modify', body)
-        setComponent(<SetProperty name={name} content={inputRef.current.value} edit={edit} setComponent={setComponent}></SetProperty>)
+        updateSets()
+        //setComponent(<SetProperty set={set} setProp={setProp} name={name} content={set[setProp]} edit={edit} setComponent={setComponent} updateSets={updateSets}></SetProperty>)
         console.log(set)
     }
 

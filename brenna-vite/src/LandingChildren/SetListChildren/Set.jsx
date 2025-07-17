@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import SetProperty from './SetChildren/SetProperty.jsx'
 import CommandField from './SetChildren/CommandField.jsx'
-import CommandColumn from './SetChildren/CommandColumn'
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import 'bootstrap/dist/css/bootstrap.css'
 import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import SetPropertyTextbox from './SetChildren/SetPropertyTextbox.jsx'
 import { DndContext, closestCorners } from '@dnd-kit/core'
+import { arrayMove } from '@dnd-kit/sortable'
 
 
 /*
@@ -15,7 +16,7 @@ import { DndContext, closestCorners } from '@dnd-kit/core'
 
 document.title="Set.jsx"
 
-const Set = ({set}) => {
+const Set = ({sets, set, updateSets}) => {
     const [name, setName] = useState([])
     const [description, setDescription] = useState([])
     const [url, setUrl] = useState([])
@@ -31,9 +32,9 @@ const Set = ({set}) => {
         setDescription(set.description)
         setUrl(set.url)
 
-        setNameComponent(<SetProperty set={set} setProp="name" name="Name" content={set.name} edit="True" setComponent={setNameComponent}></SetProperty>)
-        setDescriptionComponent(<SetProperty set={set} setProp="description" name="Description" content={set.description} edit="True" setComponent={setDescriptionComponent}></SetProperty>)
-        setUrlComponent(<SetProperty set={set} setProp="url" name="URL" content={set.url} edit="True" setComponent={setUrlComponent}></SetProperty>)
+        setNameComponent(<SetProperty set={set} setProp="name" name="Name" content={set.name} edit="True" setComponent={setNameComponent} updateSets={updateSets}></SetProperty>)
+        setDescriptionComponent(<SetProperty set={set} setProp="description" name="Description" content={set.description} edit="True" setComponent={setDescriptionComponent} updateSets={updateSets}></SetProperty>)
+        setUrlComponent(<SetProperty set={set} setProp="url" name="URL" content={set.url} edit="True" setComponent={setUrlComponent} updateSets={updateSets}></SetProperty>)
 
         const setUid = set.uid
         const body = {setUid}
@@ -48,8 +49,26 @@ const Set = ({set}) => {
         const response = axios.post('http://localhost:8000/brenna/sets/execute', body)
     }
 
+    const getCommandPos = id => commands.findIndex(command => command.id === id)
+
+    const handleDragEnd = event => {
+        const {active, over} = event
+
+        console.log({active, over})
+
+        if (active.id === over.id) return;
+
+        setCommands(commands => {
+            const originalCommandPos = getCommandPos(active.id)
+            const newCommandPos = getCommandPos(over.id)
+
+            return arrayMove(commands, originalCommandPos, newCommandPos)
+        })
+    }
+
     return(
         <div>
+            <button onClick={() => {console.log(sets); sets={}}}>ra</button>
             <div className="container">
                 <div className="row">
                     <button onClick={() => RunSuite()} type="submit" style={{border: '1px solid black', margin: '20px', float: "left"}}>Execute</button>
@@ -63,9 +82,15 @@ const Set = ({set}) => {
                             <SetProperty set={set} name="UID" content={set.uid} edit="False"></SetProperty>
                         </div>
                     </div>
-                    <DndContext collisionDetection={closestCorners}>
-                        <CommandColumn commands={commands}></CommandColumn>
-                    </DndContext>
+                    <div className="max-w-2xl mx-auto grid gap-2 my-10">
+                        <DndContext collisionDetection={closestCorners} onDragStart={() => {console.log("i drag")}} onDragEnd={handleDragEnd}>
+                            <SortableContext items={commands}>
+                                {commands.map((command, index) => (
+                                    <CommandField id={command.id} command={command} key={command.id}></CommandField>
+                                ))}
+                            </SortableContext>
+                        </DndContext>
+                    </div>
                 </div>
             </div>
         </div>

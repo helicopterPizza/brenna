@@ -6,12 +6,12 @@ def serialize_commands(commands):
     for command in commands:
         data.append({
             'uid': command.uid,
-            'setUid': command.setUid,
-            'stepID': command.stepID,
+            'set_uid': command.setUid,
+            'step_id': command.id,
             'action': command.action,
             'locator': command.locator,
-            'locatorVal': command.locatorVal,
-            'actionVal': command.actionVal,
+            'locator_val': command.locatorVal,
+            'action_val': command.actionVal,
         })
     return data
 
