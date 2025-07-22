@@ -1,4 +1,5 @@
 from imaplib import Commands
+from logging import exception
 
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -43,8 +44,8 @@ def CreateCommand(request):
 @csrf_exempt
 def FetchSet(request):
     json_body = json.loads(request.body.decode('utf-8'))
-    set = Set.objects.filter(uid=json_body['uid'])
-    return JsonResponse(serialize_sets(set), safe=False)
+    dset = Set.objects.filter(uid=json_body['set_uid'])
+    return JsonResponse(serialize_sets(dset), safe=False)
 
 @csrf_exempt
 def FetchAllSets(request):
