@@ -8,6 +8,7 @@ import axios from 'axios'
 import SetPropertyTextbox from './SetChildren/SetPropertyTextbox.jsx'
 import { DndContext, closestCorners } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
+import { useParams } from 'react-router-dom';
 
 
 /*
@@ -16,7 +17,10 @@ import { arrayMove } from '@dnd-kit/sortable'
 
 document.title="Set.jsx"
 
-const Set = ({sets, set, updateSets}) => {
+const Set = () => {
+    const { set_uid } = useParams()
+
+    const [set, setSet] = useState([])
     const [name, setName] = useState([])
     const [description, setDescription] = useState([])
     const [url, setUrl] = useState([])
@@ -27,25 +31,18 @@ const Set = ({sets, set, updateSets}) => {
 
     const [commands, setCommands] = useState([])
 
+    function LoadSet() {
+        const body = {set_uid}
+        const response = axios.post('http://localhost:8000/brenna/sets/fetch', body)
+            .then(response => {setSet(response.data[0])})
+    }
+
     useEffect(() => {
-        setName(set.name)
-        setDescription(set.description)
-        setUrl(set.url)
-
-        setNameComponent(<SetProperty set={set} setProp="name" name="Name" content={set.name} edit="True" setComponent={setNameComponent} updateSets={updateSets}></SetProperty>)
-        setDescriptionComponent(<SetProperty set={set} setProp="description" name="Description" content={set.description} edit="True" setComponent={setDescriptionComponent} updateSets={updateSets}></SetProperty>)
-        setUrlComponent(<SetProperty set={set} setProp="url" name="URL" content={set.url} edit="True" setComponent={setUrlComponent} updateSets={updateSets}></SetProperty>)
-
-        const setUid = set.uid
-        const body = {setUid}
-        const response = axios.post('http://localhost:8000/brenna/commands/fetch', body)
-            .then(response => {setCommands(response.data)})
+        LoadSet()
     }, [])
 
     function RunSuite(){
-        const setUid = set.uid
-        console.log(setUid)
-        const body = {setUid}
+        const body = { set_uid }
         const response = axios.post('http://localhost:8000/brenna/sets/execute', body)
     }
 
@@ -68,7 +65,6 @@ const Set = ({sets, set, updateSets}) => {
 
     return(
         <div>
-            <button onClick={() => {console.log(sets); sets={}}}>ra</button>
             <div className="container">
                 <div className="row">
                     <button onClick={() => RunSuite()} type="submit" style={{border: '1px solid black', margin: '20px', float: "left"}}>Execute</button>
@@ -76,14 +72,14 @@ const Set = ({sets, set, updateSets}) => {
                 <div className="row">
                     <div className="col-xs-6 col-md-6 h-100">
                         <div className="container">
-                            {nameComponent}
-                            {descriptionComponent}
-                            {urlComponent}
-                            <SetProperty set={set} name="UID" content={set.uid} edit="False"></SetProperty>
+                            <SetProperty set={set} setProp="name" name="Name" content={set.name} edit="True" loadSet={LoadSet}></SetProperty>
+                            <SetProperty set={set} setProp="description" name="Description" content={set.description} edit="True" loadSet={LoadSet}></SetProperty>
+                            <SetProperty set={set} setProp="url" name="URL" content={set.url} edit="True" loadSet={LoadSet}></SetProperty>
+                            <SetProperty set={set} name="UID" content={set.uid} edit="False" loadSet={LoadSet}></SetProperty>
                         </div>
                     </div>
                     <div className="max-w-2xl mx-auto grid gap-2 my-10">
-                        <DndContext collisionDetection={closestCorners} onDragStart={() => {console.log("i drag")}} onDragEnd={handleDragEnd}>
+                        <DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
                             <SortableContext items={commands}>
                                 {commands.map((command, index) => (
                                     <CommandField id={command.id} command={command} key={command.id}></CommandField>
