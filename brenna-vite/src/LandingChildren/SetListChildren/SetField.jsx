@@ -6,11 +6,11 @@ import React, { Component } from 'react';
 
 document.title="SetField.jsx"
 
-const SetField = ({name, uid}) => {
+const SetField = ({name, id}) => {
     return(
         <div>
             <div>{name}</div>
-            <div>{uid}</div>
+            <div>{id}</div>
         </div>
     )
 }

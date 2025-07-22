@@ -18,7 +18,7 @@ const CommandField = ({id, command}) => {
             <div style={{display: 'flex'}}>
                 <div className="col-xs-4 col-md-4">
                     <div>{command.action} {indo} {command.locator}:</div>
-                    <div>{command.locatorVal}</div>
+                    <div>{command.locator_val}</div>
                 </div>
                 <div className="col-xs-2 col-md-2">
                     <button style={{border: '1px solid black', float: "left"}}>Details</button>

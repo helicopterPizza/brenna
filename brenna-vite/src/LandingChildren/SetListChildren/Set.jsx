@@ -8,7 +8,7 @@ import axios from 'axios'
 import SetPropertyTextbox from './SetChildren/SetPropertyTextbox.jsx'
 import { DndContext, closestCorners } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom'
 
 
 /*
@@ -18,7 +18,7 @@ import { useParams } from 'react-router-dom';
 document.title="Set.jsx"
 
 const Set = () => {
-    const { set_uid } = useParams()
+    const { set_id } = useParams()
 
     const [set, setSet] = useState([])
     const [name, setName] = useState([])
@@ -32,9 +32,23 @@ const Set = () => {
     const [commands, setCommands] = useState([])
 
     function LoadSet() {
-        const body = {set_uid}
-        const response = axios.post('http://localhost:8000/brenna/sets/fetch', body)
+        const body = {set_id}
+        const set_response = axios.post('http://localhost:8000/brenna/sets/fetch', body)
             .then(response => {setSet(response.data[0])})
+        const commands_response = axios.post('http://localhost:8000/brenna/commands/fetch_all', body)
+            .then(response => {setCommands(response.data)})
+    }
+
+    function AddCommand() {
+        const load = async () => {
+            const body = {
+                set_id: set.id, step_id: commands.length+1, action: "none", locator: "", locator_val: ""
+            }  
+            const response = await axios.post('http://localhost:8000/brenna/commands/create', body)
+            LoadSet()
+        }
+
+        load()
     }
 
     useEffect(() => {
@@ -42,7 +56,7 @@ const Set = () => {
     }, [])
 
     function RunSuite(){
-        const body = { set_uid }
+        const body = { set_id }
         const response = axios.post('http://localhost:8000/brenna/sets/execute', body)
     }
 
@@ -50,8 +64,6 @@ const Set = () => {
 
     const handleDragEnd = event => {
         const {active, over} = event
-
-        console.log({active, over})
 
         if (active.id === over.id) return;
 
@@ -63,12 +75,13 @@ const Set = () => {
         })
     }
 
-    return(
+    return (
         <div>
+            <header>
+                <button onClick={() => RunSuite()} type="submit" style={{border: '1px solid black', margin: '20px', float: "left"}}>Execute</button>
+                <button onClick={() => AddCommand()} type='button' style={{border: '1px solid black', margin: '20px'}}>New Command</button>
+            </header>
             <div className="container">
-                <div className="row">
-                    <button onClick={() => RunSuite()} type="submit" style={{border: '1px solid black', margin: '20px', float: "left"}}>Execute</button>
-                </div>
                 <div className="row">
                     <div className="col-xs-6 col-md-6 h-100">
                         <div className="container">

@@ -12,7 +12,7 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <Routes>
           <Route path='/' element={<Landing/>}/>
-          <Route path='/sets/:set_uid' element={<Set/>}/>
+          <Route path='/sets/:set_id' element={<Set/>}/>
       </Routes>
     </BrowserRouter>
   </div>

@@ -5,13 +5,13 @@ def serialize_commands(commands):
     data = []
     for command in commands:
         data.append({
-            'uid': command.uid,
-            'set_uid': command.setUid,
-            'step_id': command.id,
+            'id': command.id,
+            'set_id': command.set_id,
+            'step_id': command.step_id,
             'action': command.action,
             'locator': command.locator,
-            'locator_val': command.locatorVal,
-            'action_val': command.actionVal,
+            'locator_val': command.locator_val,
+            'action_val': command.action_val,
         })
     return data
 
@@ -19,7 +19,7 @@ def serialize_sets(sets):
     data = []
     for set in sets:
         data.append({
-            'uid': set.uid,
+            'id': set.id,
             'name': set.name,
             'description': set.description,
             'url': set.url,

@@ -22,7 +22,7 @@ function Landing() {
     function CreateCommands(){
         //const body = {uid: 20, name: "clicktest TWO", description: "testing clicks again", url: "wikipedia.com"}
         //const response = axios.post('http://localhost:8000/brenna/sets/create', body)
-
+        console.log("hi")
         const body2 = {uid: 1, set_uid: 10, step_id: 1, action: 'click', locator: 'title', locator_val: 'apple'}
         const response2 = axios.post('http://localhost:8000/brenna/commands/create', body2)
     }
@@ -38,7 +38,11 @@ function Landing() {
         console.log(response)
     }
 
-    return(<SetList sets={sets}/>)
+    return(
+        <div>
+            <SetList sets={sets}/>
+        </div>
+    )
 }
 
 export default Landing

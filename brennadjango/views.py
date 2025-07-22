@@ -24,7 +24,7 @@ from django.http import JsonResponse
 @csrf_exempt
 def FetchCommand(request):
     json_body = json.loads(request.body.decode('utf-8'))
-    command = Command.objects.filter(setUid=json_body['set_uid'])
+    command = Command.objects.filter(set_uid=json_body['set_id'])
     return JsonResponse(serialize_commands(command), safe=False)
 
 @csrf_exempt
@@ -35,7 +35,7 @@ def FetchAllCommands(request):
 @csrf_exempt
 def CreateCommand(request):
     json_body = json.loads(request.body.decode('utf-8'))
-    command = Command(uid=json_body['uid'], stepID=json_body['step_id'], action=json_body['action'], locator=json_body['locator'], locatorVal=json_body['locator_val'])
+    command = Command(set_id=json_body['set_id'], step_id=json_body['step_id'], action=json_body['action'], locator=json_body['locator'], locator_val=json_body['locator_val'])
     command.save()
 
     return JsonResponse(str(json_body), safe=False)
@@ -44,7 +44,7 @@ def CreateCommand(request):
 @csrf_exempt
 def FetchSet(request):
     json_body = json.loads(request.body.decode('utf-8'))
-    dset = Set.objects.filter(uid=json_body['set_uid'])
+    dset = Set.objects.filter(id=json_body['set_id'])
     return JsonResponse(serialize_sets(dset), safe=False)
 
 @csrf_exempt
@@ -55,7 +55,7 @@ def FetchAllSets(request):
 @csrf_exempt
 def CreateSet(request):
     json_body = json.loads(request.body.decode('utf-8'))
-    set = Set(uid=json_body['uid'], name=json_body['name'], description=json_body['description'], url=json_body['url'])
+    set = Set(name=json_body['name'], description=json_body['description'], url=json_body['url'])
     set.save()
 
     return JsonResponse(str(json_body), safe=False)
@@ -63,7 +63,7 @@ def CreateSet(request):
 @csrf_exempt
 def ModifySet(request):
     json_body = json.loads(request.body.decode('utf-8'))
-    Set.objects.filter(uid=json_body['uid']).update(name=json_body['name'], description=json_body['description'], url=json_body['url'])
+    Set.objects.filter(id=json_body['id']).update(name=json_body['name'], description=json_body['description'], url=json_body['url'])
 
     return JsonResponse(str(json_body), safe=False)
 
@@ -74,7 +74,7 @@ def bla(commands):
 @csrf_exempt
 async def ExecuteSet(request):
     json_body = json.loads(request.body.decode('utf-8'))
-    commands = Command.objects.filter(setUid=json_body['setUid'])
+    commands = Command.objects.filter(setUid=json_body['set_id'])
     await RunSuite(commands)
     #t = threading.Thread(target=RunSuite, args=[commands])
     #t.start()
