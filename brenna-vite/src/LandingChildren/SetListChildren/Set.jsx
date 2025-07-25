@@ -31,12 +31,20 @@ const Set = () => {
 
     const [commands, setCommands] = useState([])
 
+    function UpdateSet() {
+        const body = { set_id: set_id, commands: [commands] }
+        const set_response = axios.post('http://localhost:8000/brenna/commands/reorder', body).then(response => {console.log(response.data)})
+    }
+
     function LoadSet() {
-        const body = {set_id}
+        const body = { set_id }
         const set_response = axios.post('http://localhost:8000/brenna/sets/fetch', body)
             .then(response => {setSet(response.data[0])})
         const commands_response = axios.post('http://localhost:8000/brenna/commands/fetch_all', body)
-            .then(response => {setCommands(response.data)})
+            .then(response => {
+                response.data.sort((a,b) => a.step_id - b.step_id);
+                setCommands(response.data)
+            })
     }
 
     function AddCommand() {
@@ -60,7 +68,7 @@ const Set = () => {
         const response = axios.post('http://localhost:8000/brenna/sets/execute', body)
     }
 
-    const getCommandPos = id => commands.findIndex(command => command.id === id)
+    const getCommandPos = id => commands.findIndex(command => command.step_id === id)
 
     const handleDragEnd = event => {
         const {active, over} = event
@@ -70,8 +78,10 @@ const Set = () => {
         setCommands(commands => {
             const originalCommandPos = getCommandPos(active.id)
             const newCommandPos = getCommandPos(over.id)
+            const moved = arrayMove(commands, originalCommandPos, newCommandPos)
+            UpdateSet()
 
-            return arrayMove(commands, originalCommandPos, newCommandPos)
+            return moved
         })
     }
 
@@ -93,9 +103,9 @@ const Set = () => {
                     </div>
                     <div className="max-w-2xl mx-auto grid gap-2 my-10">
                         <DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
-                            <SortableContext items={commands}>
+                            <SortableContext items={commands.map(i => i.step_id)}>
                                 {commands.map((command, index) => (
-                                    <CommandField id={command.id} command={command} key={command.id}></CommandField>
+                                    <CommandField id={command.step_id} command={command} key={command.step_id}></CommandField>
                                 ))}
                             </SortableContext>
                         </DndContext>

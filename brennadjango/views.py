@@ -12,6 +12,7 @@ from python.main import RunSuite
 from asgiref.sync import sync_to_async
 import asyncio
 
+from django_bulk_update.manager import BulkUpdateManager
 
 # Create your views here.
 
@@ -20,11 +21,13 @@ from .models import Set
 from .serializers import serialize_commands, serialize_sets
 from django.http import JsonResponse
 
+objects = BulkUpdateManager()
+
 # --Command functions--
 @csrf_exempt
 def FetchCommand(request):
     json_body = json.loads(request.body.decode('utf-8'))
-    command = Command.objects.filter(set_uid=json_body['set_id'])
+    command = Command.objects.filter(set_id=json_body['set_id'])
     return JsonResponse(serialize_commands(command), safe=False)
 
 @csrf_exempt
@@ -66,6 +69,19 @@ def ModifySet(request):
     Set.objects.filter(id=json_body['id']).update(name=json_body['name'], description=json_body['description'], url=json_body['url'])
 
     return JsonResponse(str(json_body), safe=False)
+
+@csrf_exempt
+def ReorderCommands(request):
+    json_body = json.loads(request.body.decode('utf-8'))
+    set_id = json_body['set_id']
+    #commands = Command.objects.filter(set_id=json_body['set_id'])
+    for command in json_body['commands'][0]:
+        Command.objects.filter(id=command['id']).update(set_id=command['set_id'], step_id=command['step_id'], action=command['action'], locator=command['locator'], locator_val=command['locator_val'], action_val=command['action_val'])
+        #return JsonResponse(str(type(blal)), safe=False)
+    #command.delete()
+    #Command.objects.bulk_create()
+    commands = Command.objects.filter(set_id=json_body['set_id'])
+    return JsonResponse(json_body['commands'][0], safe=False)
 
 @sync_to_async
 def bla(commands):

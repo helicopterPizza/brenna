@@ -8,7 +8,6 @@ const CommandField = ({id, command}) => {
     const {attributes, listeners, setNodeRef, transform, transition} = useSortable({id: id});
 
     const style = {transition, transform: CSS.Transform.toString(transform)}
-    console.log(transform)
     let indo = ""
     if((command.actionVal != null) && (command.actionVal != "")){
         indo = "\"" + command.actionVal + "\" in"

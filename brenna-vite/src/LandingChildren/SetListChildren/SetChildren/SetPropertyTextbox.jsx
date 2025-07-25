@@ -13,14 +13,16 @@ const SetPropertyTextbox = ({set, setProp, name, content, edit, loadSet, setIsEd
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const uid = set.uid
+        const id = set.id
         const set_name = set.name
         const description = set.description
         const url = set.url
-        const body = {uid: uid, name: set_name, description: description, url: url}
+        const body = {id: id, name: set_name, description: description, url: url}
         body[setProp] = inputRef.current.value
 
         const response = axios.post('http://localhost:8000/brenna/sets/modify', body).then(() => {
+            console.log(body)
+            console.log(response.data)
             const reload = async () => {
                 await loadSet()
                 setIsEdit(false)
