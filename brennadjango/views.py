@@ -14,6 +14,8 @@ import asyncio
 
 from django_bulk_update.manager import BulkUpdateManager
 
+from django.db import transaction
+
 # Create your views here.
 
 from .models import Command
@@ -74,14 +76,19 @@ def ModifySet(request):
 def ReorderCommands(request):
     json_body = json.loads(request.body.decode('utf-8'))
     set_id = json_body['set_id']
-    #commands = Command.objects.filter(set_id=json_body['set_id'])
-    for command in json_body['commands'][0]:
-        Command.objects.filter(id=command['id']).update(set_id=command['set_id'], step_id=command['step_id'], action=command['action'], locator=command['locator'], locator_val=command['locator_val'], action_val=command['action_val'])
-        #return JsonResponse(str(type(blal)), safe=False)
+    commands = json_body['commands'][0]
+    command = commands[0]
+    x = Command.objects.filter(id=command['id'])[0]
+
+
+    with transaction.atomic():
+        for command in commands:
+            Command.objects.filter(id=command['id']).update(step_id=command['step_id'])
+            
     #command.delete()
     #Command.objects.bulk_create()
-    commands = Command.objects.filter(set_id=json_body['set_id'])
-    return JsonResponse(json_body['commands'][0], safe=False)
+    #commands = Command.objects.filter(set_id=2000)
+    return JsonResponse(str(json_body), safe=False)
 
 @sync_to_async
 def bla(commands):

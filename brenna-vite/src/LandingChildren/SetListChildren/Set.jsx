@@ -32,6 +32,9 @@ const Set = () => {
     const [commands, setCommands] = useState([])
 
     function UpdateSet() {
+        for (var i = 0; i < commands.length; i++) { 
+            commands[i].step_id = i
+        }
         const body = { set_id: set_id, commands: [commands] }
         const set_response = axios.post('http://localhost:8000/brenna/commands/reorder', body).then(response => {console.log(response.data)})
     }
@@ -79,10 +82,16 @@ const Set = () => {
             const originalCommandPos = getCommandPos(active.id)
             const newCommandPos = getCommandPos(over.id)
             const moved = arrayMove(commands, originalCommandPos, newCommandPos)
-            UpdateSet()
 
             return moved
         })
+        
+        //UpdateSet()
+    }
+
+    function printCmd() {
+        console.log(commands)
+        UpdateSet()
     }
 
     return (
@@ -101,14 +110,17 @@ const Set = () => {
                             <SetProperty set={set} name="UID" content={set.uid} edit="False" loadSet={LoadSet}></SetProperty>
                         </div>
                     </div>
-                    <div className="max-w-2xl mx-auto grid gap-2 my-10">
-                        <DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
-                            <SortableContext items={commands.map(i => i.step_id)}>
-                                {commands.map((command, index) => (
-                                    <CommandField id={command.step_id} command={command} key={command.step_id}></CommandField>
-                                ))}
-                            </SortableContext>
-                        </DndContext>
+                    <div style={{height: '20px'}}>
+                        <div className="max-w-2xl mx-auto grid gap-2 my-10 col-xs-6 col-md-6 h-100">
+                            <DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
+                                <SortableContext items={commands.map(i => i.step_id)}>
+                                    {commands.map((command, index) => (
+                                        <CommandField id={command.step_id} command={command} set_id={set_id} key={command.step_id}></CommandField>
+                                    ))}
+                                </SortableContext>
+                            </DndContext>
+                        </div>
+                        <button onClick={() => printCmd()} type='button' style={{border: '1px solid black', margin: '20px'}}>Save</button>
                     </div>
                 </div>
             </div>

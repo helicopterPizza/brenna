@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import { Component, useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
 import SetPropertyTextbox from './SetPropertyTextbox.jsx'
 
