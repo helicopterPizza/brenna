@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import { Component, useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
 import SetPropertyTextbox from './SetPropertyTextbox.jsx'
 
@@ -8,9 +8,6 @@ import SetPropertyTextbox from './SetPropertyTextbox.jsx'
 
 const SetProperty = ({set, setProp, name, content, edit, loadSet}) => {
     const [IsEdit, setIsEdit] = useState(false)
-
-    console.log(IsEdit)
-
 
     if (edit == "True") {
         if (IsEdit == false) {

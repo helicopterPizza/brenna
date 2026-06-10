@@ -10,12 +10,15 @@ import { Link } from 'react-router-dom';
  */
 
 const SetList = ({sets}) => {
+    sets.map((set, index) => (
+        console.log(set.id)
+    ))
     return (
         <div>
             {sets.map((set, index) => (
-                <div key={set.uid} style={{border: '1px solid black'}}>
-                    <SetField name={set.name} uid={set.uid}/>
-                    <Link to={'/sets/' + set.uid}>View</Link>
+                <div key={set.id} style={{border: '1px solid black'}}>
+                    <SetField name={set.name} id={set.id}/>
+                    <Link to={'/sets/' + set.id}>View</Link>
                 </div>
             ))}
         </div>
