@@ -17,7 +17,7 @@ const SetList = ({sets}) => {
         <div>
             {sets.map((set, index) => (
                 <div key={set.id} style={{border: '1px solid black'}}>
-                    <SetField name={set.name} id={set.id}/>
+                    <SetField id={set.id} name={set.name} description={set.description}/>
                     <Link to={'/sets/' + set.id}>View</Link>
                 </div>
             ))}

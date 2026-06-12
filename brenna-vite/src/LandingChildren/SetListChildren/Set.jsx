@@ -43,8 +43,9 @@ const Set = () => {
         const body = { set_id }
         const set_response = axios.post('http://localhost:8000/brenna/sets/fetch', body)
             .then(response => {setSet(response.data[0])})
-        const commands_response = axios.post('http://localhost:8000/brenna/commands/fetch_all', body)
+        const commands_response = axios.post('http://localhost:8000/brenna/commands/fetch', body)
             .then(response => {
+                console.log(response.data)
                 response.data.sort((a,b) => a.step_id - b.step_id);
                 setCommands(response.data)
             })
@@ -99,6 +100,7 @@ const Set = () => {
             <header>
                 <button onClick={() => RunSuite()} type="submit" style={{border: '1px solid black', margin: '20px', float: "left"}}>Execute</button>
                 <button onClick={() => AddCommand()} type='button' style={{border: '1px solid black', margin: '20px'}}>New Command</button>
+                <button onClick={() => printCmd()} type='button' style={{border: '1px solid black', margin: '20px'}}>Save</button>
             </header>
             <div className="container">
                 <div className="row">
@@ -120,7 +122,6 @@ const Set = () => {
                                 </SortableContext>
                             </DndContext>
                         </div>
-                        <button onClick={() => printCmd()} type='button' style={{border: '1px solid black', margin: '20px'}}>Save</button>
                     </div>
                 </div>
             </div>

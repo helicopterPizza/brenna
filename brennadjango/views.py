@@ -45,6 +45,14 @@ def CreateCommand(request):
 
     return JsonResponse(str(json_body), safe=False)
 
+@csrf_exempt
+def ModifyCommand(request):
+    json_body = json.loads(request.body.decode('utf-8'))
+    Command.objects.filter(set_id=json_body['set_id'], step_id=json_body['step_id']).update(action=json_body['action'], locator=json_body['locator'], action_val=json_body['action_val'], locator_val=json_body['locator_val'])
+
+    return JsonResponse(str(json_body), safe=False)
+    
+
 # --Set functions--
 @csrf_exempt
 def FetchSet(request):

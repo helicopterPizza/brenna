@@ -14,7 +14,7 @@ createRoot(document.getElementById('root')).render(
       <Routes>
           <Route path='/' element={<Landing/>}/>
           <Route path='/sets/:set_id' element={<Set/>}/>
-          <Route path='/sets/:set_id/commands/:command_id' element={<Command/>}/>
+          <Route path='/sets/:set_id/commands/:step_id' element={<Command/>}/>
       </Routes>
     </BrowserRouter>
   </div>

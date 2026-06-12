@@ -24,7 +24,7 @@ const CommandField = ({id, command, set_id}) => {
                             <div>{command.locator_val}</div>
                         </div>
                         <div className="col-xs-2 col-md-2">
-                            <Link to={'/sets/' + set_id + '/commands/' + command.id} style={{border: '1px solid black', float: "left"}}>Details</Link>
+                            <Link to={'/sets/' + set_id + '/commands/' + command.step_id} style={{border: '1px solid black', float: "left"}}>Details</Link>
                         </div>
                     </div>
                 </div>
