@@ -9,6 +9,7 @@ import SetPropertyTextbox from './SetChildren/SetPropertyTextbox.jsx'
 import { DndContext, closestCorners } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 import { useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 
 /*
@@ -63,8 +64,31 @@ const Set = () => {
         load()
     }
 
+    function LoadCommands() {
+        const body = { set_id }
+        const commands_response = axios.post('http://localhost:8000/brenna/commands/fetch', body)
+            .then(response => {
+                console.log(response.data)
+                response.data.sort((a,b) => a.step_id - b.step_id);
+                setCommands(response.data)
+            })
+    }
+
+    const pollingRef = useRef(null)
     useEffect(() => {
         LoadSet()
+
+        const startPolling = () => {
+            pollingRef.current = setInterval(() => {
+                console.log("hi lol")
+                LoadCommands()
+            }, 5000)
+        }
+        startPolling()
+
+        return () => {
+            clearInterval(pollingRef.current)
+        }
     }, [])
 
     function RunSuite(){
@@ -98,7 +122,10 @@ const Set = () => {
     return (
         <div>
             <header>
-                <button onClick={() => RunSuite()} type="submit" style={{border: '1px solid black', margin: '20px', float: "left"}}>Execute</button>
+                <div style={{float: "left"}}>
+                    <Link to={'/'}>&lt;back&gt;</Link>
+                    <button onClick={() => RunSuite()} type="submit" style={{border: '1px solid black', margin: '20px'}}>Execute</button>
+                </div>
                 <button onClick={() => AddCommand()} type='button' style={{border: '1px solid black', margin: '20px'}}>New Command</button>
                 <button onClick={() => printCmd()} type='button' style={{border: '1px solid black', margin: '20px'}}>Save</button>
             </header>

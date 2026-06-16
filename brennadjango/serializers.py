@@ -12,6 +12,7 @@ def serialize_commands(commands):
             'locator': command.locator,
             'locator_val': command.locator_val,
             'action_val': command.action_val,
+            'status': command.status
         })
     return data
 

@@ -45,7 +45,7 @@ return (
                 <input id={name + "_box"} type="text" ref={inputRef} defaultValue={content} autoComplete="off" />
             </div>
             <div className="col-xs-6 col-md-6">
-                <button type="submit" style={{border: '1px solid black', float: "left"}}>Save</button>
+                <button type="submit" class="btn btn-default" style={{border: '1px solid black', float: "left"}}>Save</button>
             </div>
         </form>
     </div>

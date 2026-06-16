@@ -2,7 +2,7 @@
     Main display component for a specific set
  */
 
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import CommandProperty from './CommandChildren/CommandProperty.jsx'
 import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
@@ -21,7 +21,7 @@ const Command = () => {
                 response.data = response.data.filter((x) => {
                     return Number(x.step_id) === Number(step_id)
                 })
-                console.log(response.data)
+                //console.log(response.data)
                 setCommand(response.data[0])
             })
     }
@@ -33,6 +33,7 @@ const Command = () => {
     return (
         <div>
             <div className="container">
+                <Link to={'/sets/' + set_id}>&lt;back&gt;</Link>
                 <div className="row">
                     <div className="col-xs-6 col-md-6 h-100">
                         <div className="container">

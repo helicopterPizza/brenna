@@ -34,7 +34,7 @@ const SetPropertyTextbox = ({set, setProp, name, content, edit, loadSet, setIsEd
     return (
         <div className="row">
             <form onSubmit={handleSubmit}>
-                <div className="col-xs-6 col-md-6 h-100" style={{border: '1px solid black', height: "100px"}}>
+                <div className="fieldbox" style={{border: '1px solid black', height: "100px"}}>
                     <div style={{border: '1px solid black'}}>
                         {name}
                     </div>

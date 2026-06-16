@@ -8,7 +8,7 @@ import threading
 
 from typing_extensions import runtime
 
-from python.main import RunSuite
+from .python.main import RunSuite
 from asgiref.sync import sync_to_async
 import asyncio
 

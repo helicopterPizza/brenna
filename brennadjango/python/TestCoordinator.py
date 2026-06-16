@@ -1,5 +1,5 @@
-import python.actions as actions
-import python.assertions as assertions
+from . import actions as actions
+from . import assertions as assertions
 
 class TestCoordinator():
 

@@ -2,7 +2,7 @@ import time
 
 from playwright.async_api import async_playwright
 from playwright.sync_api import sync_playwright
-from python.TestCoordinator import TestCoordinator
+from .TestCoordinator import TestCoordinator
 
 async def RunSuite(instructions):
     async with async_playwright() as p:
