@@ -105,7 +105,7 @@ def bla(commands):
 @csrf_exempt
 async def ExecuteSet(request):
     json_body = json.loads(request.body.decode('utf-8'))
-    commands = Command.objects.filter(setUid=json_body['set_id'])
+    commands = Command.objects.filter(set_id=json_body['set_id'])
     await RunSuite(commands)
     #t = threading.Thread(target=RunSuite, args=[commands])
     #t.start()

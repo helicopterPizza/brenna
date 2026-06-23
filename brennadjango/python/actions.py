@@ -19,3 +19,17 @@ async def launch(p, browser, url):
 async def clickElement(locator, page):
     locator = page.locator(locator).nth(0)
     await locator.click(force=True)
+
+async def typeString(locator, page, text):
+    locator = page.locator(locator).nth(0)
+    await locator.click(force=True)
+    await page.keyboard.type(text)
+
+async def pressKey(page, key):
+    await page.keyboard.press(key)
+
+async def pressKey(page, key):
+    await page.keyboard.down(key)
+
+async def pressKey(page, key):
+    await page.keyboard.up(key)

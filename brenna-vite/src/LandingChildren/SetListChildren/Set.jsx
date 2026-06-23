@@ -136,7 +136,7 @@ const Set = () => {
                             <SetProperty set={set} setProp="name" name="Name" content={set.name} edit="True" loadSet={LoadSet}></SetProperty>
                             <SetProperty set={set} setProp="description" name="Description" content={set.description} edit="True" loadSet={LoadSet}></SetProperty>
                             <SetProperty set={set} setProp="url" name="URL" content={set.url} edit="True" loadSet={LoadSet}></SetProperty>
-                            <SetProperty set={set} name="UID" content={set.uid} edit="False" loadSet={LoadSet}></SetProperty>
+                            <SetProperty set={set} name="ID" content={set.id} edit="False" loadSet={LoadSet}></SetProperty>
                         </div>
                     </div>
                     <div style={{height: '20px'}}>

@@ -25,7 +25,7 @@ function Landing() {
     }*/
 
     function FetchSet() {
-        const body = {uid: '10'}
+        const body = {id: '10'}
         const response = axios.post('http://localhost:8000/brenna/sets/fetch', body)
         console.log(response)
     }
