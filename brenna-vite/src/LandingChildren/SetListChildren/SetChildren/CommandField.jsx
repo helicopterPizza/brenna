@@ -17,13 +17,13 @@ const CommandField = ({id, command, set_id}) => {
     let statusIcon = ""
 
     if (command.status == "PENDING") {
-        statusIcon = 'clock_placeholder'
+        statusIcon = '⏱️'
     } else if (command.status == "RUNNING") {
-        statusIcon = 'running_placeholder'
+        statusIcon = '🔎'
     } else if (command.status == "SUCCESS") {
-        statusIcon = 'success_placeholder'
+        statusIcon = '✅'
     } else if (command.status == "FAILED") {
-        statusIcon = 'failed_placeholder'
+        statusIcon = '❌'
     } else {
         console.log(command)
         statusIcon = 'what'
