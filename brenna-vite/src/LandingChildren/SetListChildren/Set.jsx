@@ -32,6 +32,8 @@ const Set = () => {
 
     const [commands, setCommands] = useState([])
 
+    const [createDisabled, createIsDisabled] = useState([])
+
     function UpdateSet() {
         for (var i = 0; i < commands.length; i++) { 
             commands[i].step_id = i
@@ -46,36 +48,43 @@ const Set = () => {
             .then(response => {setSet(response.data[0])})
         const commands_response = axios.post('http://localhost:8000/brenna/commands/fetch', body)
             .then(response => {
-                console.log(response.data)
+                //console.log(response.data)
                 response.data.sort((a,b) => a.step_id - b.step_id);
                 setCommands(response.data)
             })
     }
 
-    function AddCommand() {
-        const load = async () => {
-            const body = {
-                set_id: set.id, step_id: commands.length+1, action: "none", locator: "", locator_val: ""
-            }  
-            const response = await axios.post('http://localhost:8000/brenna/commands/create', body)
-            LoadSet()
-        }
+    async function AddCommand() {
+        await createIsDisabled(true)
+        const body = {
+            set_id: set.id, step_id: commands.length, action: "none", locator: "", locator_val: "", status: "PENDING"
+        }  
 
-        load()
+        await axios.post('http://localhost:8000/brenna/commands/create', body)
+        await LoadSet()
+        await createIsDisabled(false)
     }
 
     function LoadCommands() {
         const body = { set_id }
-        const commands_response = axios.post('http://localhost:8000/brenna/commands/fetch', body)
+        return axios.post('http://localhost:8000/brenna/commands/fetch', body)
             .then(response => {
-                console.log(response.data)
+                //console.log(response.data)
                 response.data.sort((a,b) => a.step_id - b.step_id);
                 setCommands(response.data)
             })
     }
 
+    async function DeleteCommand(step_id) {
+        console.log("hih")
+        const body = {set_id, step_id}
+        await axios.post('http://localhost:8000/brenna/commands/delete', body)
+        await LoadCommands()
+    }
+
     const pollingRef = useRef(null)
     useEffect(() => {
+        createIsDisabled(false)
         LoadSet()
 
         const startPolling = () => {
@@ -110,12 +119,12 @@ const Set = () => {
 
             return moved
         })
-        
-        //UpdateSet()
+
+        UpdateSet()
     }
 
     function printCmd() {
-        console.log(commands)
+        //console.log(commands)
         UpdateSet()
     }
 
@@ -126,7 +135,7 @@ const Set = () => {
                     <Link to={'/'}>&lt;back&gt;</Link>
                     <button onClick={() => RunSuite()} type="submit" style={{border: '1px solid black', margin: '20px'}}>Execute</button>
                 </div>
-                <button onClick={() => AddCommand()} type='button' style={{border: '1px solid black', margin: '20px'}}>New Command</button>
+                <button disabled={createDisabled} onClick={() => AddCommand()} type='button' style={{border: '1px solid black', margin: '20px'}}>New Command</button>
                 <button onClick={() => printCmd()} type='button' style={{border: '1px solid black', margin: '20px'}}>Save</button>
             </header>
             <div className="container">
@@ -144,7 +153,7 @@ const Set = () => {
                             <DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
                                 <SortableContext items={commands.map(i => i.step_id)}>
                                     {commands.map((command, index) => (
-                                        <CommandField id={command.step_id} command={command} set_id={set_id} key={command.step_id}></CommandField>
+                                        <CommandField id={command.step_id} command={command} set_id={set_id} key={command.step_id} DeleteCommand={DeleteCommand}></CommandField>
                                     ))}
                                 </SortableContext>
                             </DndContext>

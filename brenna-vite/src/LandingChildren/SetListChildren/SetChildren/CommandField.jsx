@@ -2,16 +2,17 @@ import React, { Component } from 'react';
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 //document.title="CommandField.jsx"
 
-const CommandField = ({id, command, set_id}) => {
+const CommandField = ({id, command, set_id, DeleteCommand}) => {
     const {attributes, listeners, setNodeRef, transform, transition} = useSortable({id: id});
 
     const style = {transition, transform: CSS.Transform.toString(transform)}
     let indo = ""
-    if((command.actionVal != null) && (command.actionVal != "")){
-        indo = "\"" + command.actionVal + "\" in"
+    if((command.actionVal != null) && (command.action_val != "")){
+        indo = "\"" + command.action_val + "\" in"
     }
 
     let statusIcon = ""
@@ -29,6 +30,7 @@ const CommandField = ({id, command, set_id}) => {
         statusIcon = 'what'
     }
 
+
     return(
         <div ref={setNodeRef} {...attributes} {...listeners} style={style} className="bg-red-200 p-4 rounded shadow-md flex justify-between">
             <div style={{display: 'flex'}}>
@@ -40,7 +42,7 @@ const CommandField = ({id, command, set_id}) => {
                         </div>
                         <div style={{display: 'flex', flexDirection: 'row'}} className="col-xs-2 col-md-2">
                             <Link style={{marginRight: '8px', border: '1px solid black'}} className="btn btn-default" to={'/sets/' + set_id + '/commands/' + command.step_id}>Details</Link>
-                            <button style={{color: 'red', border: '1px solid black'}}>🗑</button>
+                            <button onPointerDown={(e) => e.stopPropagation()} style={{color: 'red', border: '1px solid black'}} onClick={() => DeleteCommand(id)}>🗑</button>
                             <div>{statusIcon}</div>
                         </div>
                     </div>

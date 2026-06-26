@@ -8,9 +8,10 @@ urlpatterns = [
     path('commands/create', views.CreateCommand),
     path('commands/reorder', views.ReorderCommands),
     path('commands/modify', views.ModifyCommand),
+    path('commands/delete', views.DeleteCommand),
     path('sets/fetch', views.FetchSet),
     path('sets/fetch_all', views.FetchAllSets),
     path('sets/create', views.CreateSet),
     path('sets/modify', views.ModifySet),
-    path('sets/execute', views.ExecuteSet),
+    path('sets/execute', views.ExecuteSet)
 ]

@@ -98,9 +98,13 @@ def ReorderCommands(request):
     #commands = Command.objects.filter(set_id=2000)
     return JsonResponse(str(json_body), safe=False)
 
-@sync_to_async
-def bla(commands):
-    RunSuite(commands).start()
+@csrf_exempt
+def DeleteCommand(request):
+    json_body = json.loads(request.body.decode('utf-8'))
+    set_id = json_body['set_id']
+    step_id = json_body['step_id']
+    x = Command.objects.filter(set_id=set_id, step_id=step_id).delete()
+    return JsonResponse(str(json_body), safe=False)
 
 @csrf_exempt
 async def ExecuteSet(request):

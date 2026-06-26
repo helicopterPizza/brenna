@@ -6,7 +6,7 @@ const CommandProperty = ({command, commandProp, name, content, edit, loadCommand
 const [IsEdit, commandIsEdit] = useState(false)
 const inputRef = useRef();
 
-console.log("prop " + commandProp)
+//console.log("prop " + commandProp)
 
 function handleSubmit() {
 
@@ -26,13 +26,12 @@ function handleSubmit() {
     body[commandProp] = inputRef.current.value
 
     const response = axios.post('http://localhost:8000/brenna/commands/modify', body).then(() => {
-        console.log(body)
-        console.log(response.data)
+        //console.log(body)
+        //console.log(response.data)
         const reload = async () => {
             await loadCommand()
             commandIsEdit(false)
         }
-        //reload()
     })
 }
 

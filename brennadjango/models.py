@@ -3,9 +3,9 @@ from django.db import models
 # Create your models here.
 
 class Status():
-    PENDING = 'PENDING',
-    RUNNING = 'RUNNING',
-    SUCCESS = 'SUCCESS',
+    PENDING = 'PENDING'
+    RUNNING = 'RUNNING'
+    SUCCESS = 'SUCCESS'
     FAILED = 'FAILED'
 
 class Command(models.Model):

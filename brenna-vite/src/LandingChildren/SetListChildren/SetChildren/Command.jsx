@@ -21,7 +21,7 @@ const Command = () => {
                 response.data = response.data.filter((x) => {
                     return Number(x.step_id) === Number(step_id)
                 })
-                //console.log(response.data)
+                console.log(response.data[0])
                 setCommand(response.data[0])
             })
     }
@@ -37,7 +37,7 @@ const Command = () => {
                 <div className="row">
                     <div className="col-xs-6 col-md-6 h-100">
                         <div className="container">
-                            <CommandProperty command={command} name="Step Number" content={command.step_id + 1} edit="False" loadCommand={LoadCommand}></CommandProperty>
+                            <CommandProperty command={command} name="Step Number" content={isNaN(command.step_id) ? "NaN" : command.step_id + 1} edit="False" loadCommand={LoadCommand}></CommandProperty>
                             <CommandProperty command={command} commandProp="action" name="Action" content={command.action} edit="True" loadCommand={LoadCommand}></CommandProperty>
                             <CommandProperty command={command} commandProp="locator" name="Locator" content={command.locator} edit="True" loadCommand={LoadCommand}></CommandProperty>
                             <CommandProperty command={command} commandProp="action_val" name="Action Value" content={command.action_val} edit="True" loadCommand={LoadCommand}></CommandProperty>
